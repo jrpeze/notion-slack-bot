@@ -143,10 +143,7 @@ app.message(async ({ message, say }) => {
   }
 });
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
-});
+// Health check endpoint (removed - Slack Bolt handles this internally)
 
 // Start the app
 (async () => {
@@ -154,7 +151,7 @@ app.get('/health', (req, res) => {
     const port = process.env.PORT || 3000;
     await app.start(port);
     console.log(`⚡️ Notion Slack Bot is running on port ${port}!`);
-    console.log(`Webhook URL: https://your-app-name.up.railway.app/slack/events`);
+    console.log(`Bot is ready to receive messages!`);
   } catch (error) {
     console.error('Error starting app:', error);
     process.exit(1);
