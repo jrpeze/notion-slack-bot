@@ -1,0 +1,28 @@
+{
+  "name": "notion-slack-bot",
+  "version": "1.0.0",
+  "description": "Slack bot to search Notion content",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.17.1",
+    "@notionhq/client": "^2.2.15"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "slack",
+    "bot",
+    "notion",
+    "search"
+  ],
+  "author": "Jeff",
+  "license": "MIT"
+}
