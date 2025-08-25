@@ -1,5 +1,6 @@
 const { App } = require('@slack/bolt');
 const { Client } = require('@notionhq/client');
+const express = require('express');
 
 // Initialize Slack app
 const app = new App({
@@ -7,6 +8,12 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   socketMode: false,
   appToken: process.env.SLACK_APP_TOKEN
+});
+
+// Add Express app for health checks
+const expressApp = express();
+expressApp.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // Initialize Notion client
@@ -145,12 +152,21 @@ app.message(async ({ message, say }) => {
 
 // Health check endpoint (removed - Slack Bolt handles this internally)
 
-// Start the app
+// Start both apps
 (async () => {
   try {
     const port = process.env.PORT || 3000;
+    
+    // Start Slack bot
     await app.start(port);
     console.log(`⚡️ Notion Slack Bot is running on port ${port}!`);
+    
+    // Start Express health check server on different port
+    const healthPort = parseInt(port) + 1;
+    expressApp.listen(healthPort, () => {
+      console.log(`Health check server running on port ${healthPort}`);
+    });
+    
     console.log(`Bot is ready to receive messages!`);
   } catch (error) {
     console.error('Error starting app:', error);
